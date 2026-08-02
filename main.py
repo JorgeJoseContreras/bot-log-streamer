@@ -2,8 +2,6 @@ import os
 from typing import List
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Header, HTTPException, Request
 from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 
 app = FastAPI(title="Jorge's Bot Log Streamer")
