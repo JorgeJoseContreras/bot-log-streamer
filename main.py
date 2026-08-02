@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import List, Optional
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Header, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
@@ -9,6 +9,17 @@ app = FastAPI(title="Jorge's Bot Log Streamer")
 # Simple API key for security
 API_KEY = os.getenv("LOG_STREAMER_API_KEY", "super-secret-key")
 
+# Global log history buffer (Preserves up to 50,000 log lines forever)
+GLOBAL_LOG_HISTORY: List[str] = []
+MAX_HISTORY_LINES = 50000
+
+# Global Bot State
+current_bot_state = {
+    "status": "idle", # "idle" or "working"
+    "detail": "Ready for commands",
+    "tool": ""
+}
+
 # Store active websocket connections
 class ConnectionManager:
     def __init__(self):
@@ -17,6 +28,12 @@ class ConnectionManager:
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
         self.active_connections.append(websocket)
+        # Send initial full log history and current bot status to newly connected client
+        await websocket.send_json({
+            "type": "init",
+            "logs": GLOBAL_LOG_HISTORY[-2000:], # send last 2000 lines on load
+            "state": current_bot_state
+        })
 
     def disconnect(self, websocket: WebSocket):
         if websocket in self.active_connections:
@@ -27,7 +44,6 @@ class ConnectionManager:
             try:
                 await connection.send_json(message)
             except Exception:
-                # Handle broken connections gracefully
                 pass
 
 manager = ConnectionManager()
@@ -35,27 +51,51 @@ manager = ConnectionManager()
 class LogPayload(BaseModel):
     logs: List[str]
 
+class StatusPayload(BaseModel):
+    status: str # "working" or "idle"
+    detail: Optional[str] = ""
+    tool: Optional[str] = ""
+
 @app.get("/", response_class=HTMLResponse)
 async def get_dashboard(request: Request):
-    # We can embed the HTML directly or use Jinja2. Direct HTML is simpler and self-contained.
     return HTML_CONTENT
+
+@app.get("/api/logs/history")
+async def get_log_history():
+    return {"total_lines": len(GLOBAL_LOG_HISTORY), "logs": GLOBAL_LOG_HISTORY[-5000:]}
 
 @app.post("/api/logs")
 async def receive_logs(payload: LogPayload, x_api_key: str = Header(None)):
     if x_api_key != API_KEY:
         raise HTTPException(status_code=403, detail="Invalid API Key")
     
-    # Broadcast logs to all connected websockets
+    global GLOBAL_LOG_HISTORY
+    GLOBAL_LOG_HISTORY.extend(payload.logs)
+    if len(GLOBAL_LOG_HISTORY) > MAX_HISTORY_LINES:
+        GLOBAL_LOG_HISTORY = GLOBAL_LOG_HISTORY[-MAX_HISTORY_LINES:]
+        
     await manager.broadcast({"type": "logs", "data": payload.logs})
     return {"status": "success", "broadcasted": len(payload.logs)}
+
+@app.post("/api/status")
+async def update_bot_status(payload: StatusPayload, x_api_key: str = Header(None)):
+    if x_api_key != API_KEY:
+        raise HTTPException(status_code=403, detail="Invalid API Key")
+    
+    global current_bot_state
+    current_bot_state["status"] = payload.status
+    current_bot_state["detail"] = payload.detail or ""
+    current_bot_state["tool"] = payload.tool or ""
+    
+    await manager.broadcast({"type": "status", "data": current_bot_state})
+    return {"status": "success", "state": current_bot_state}
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
     try:
         while True:
-            # Keep connection alive and listen for any client messages (though we don't expect any)
-            data = await websocket.receive_text()
+            await websocket.receive_text()
     except WebSocketDisconnect:
         manager.disconnect(websocket)
     except Exception:
@@ -75,59 +115,59 @@ HTML_CONTENT = """<!DOCTYPE html>
             theme: {
                 extend: {
                     colors: {
-                        border: "hsl(240 5.9% 90%)",
                         background: "hsl(240 10% 3.9%)",
-                        foreground: "hsl(0 0% 98%)",
                         card: "hsl(240 10% 6%)",
-                        "card-foreground": "hsl(0 0% 98%)",
                     }
                 }
             }
         }
     </script>
     <style>
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
-        ::-webkit-scrollbar-track {
-            background: #09090b;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #27272a;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #3f3f46;
-        }
-        @keyframes pulse-slow {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-        .animate-pulse-slow {
-            animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        .animate-spin-slow {
+            animation: spin-slow 2s linear infinite;
         }
     </style>
 </head>
 <body class="bg-zinc-950 text-zinc-50 min-h-screen font-sans flex flex-col">
 
     <!-- Header -->
-    <header class="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
+    <header class="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur sticky top-0 z-50 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center space-x-3">
             <div class="bg-blue-500/10 p-2 rounded-lg border border-blue-500/20 text-blue-400">
                 <i data-lucide="cloud-lightning" class="w-6 h-6"></i>
             </div>
             <div>
                 <h1 class="text-lg font-bold tracking-tight flex items-center gap-2">
-                    Jorge's Coder Bot <span class="text-xs bg-blue-950 text-blue-400 border border-blue-900/50 px-2 py-0.5 rounded-full font-mono">CLOUD STREAM</span>
+                    Jorge's Coder Bot <span class="text-xs bg-blue-950 text-blue-400 border border-blue-900/50 px-2 py-0.5 rounded-full font-mono">NODE1 STREAM</span>
                 </h1>
-                <p class="text-xs text-zinc-400">Live Log Streamer deployed on Render</p>
+                <p class="text-xs text-zinc-400">Live Log Streamer & Real-time Bot Activity Monitor</p>
             </div>
         </div>
+
         <div class="flex items-center space-x-4">
+            <!-- BOT ACTIVITY INDICATOR (ROLLING ICON WHEN WORKING) -->
+            <div id="bot-activity-badge" class="flex items-center space-x-2.5 bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all duration-300">
+                <div id="activity-icon-container" class="relative flex items-center justify-center">
+                    <i id="activity-icon" data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span id="activity-status-text" class="text-xs font-bold text-emerald-400 tracking-wide uppercase">BOT IDLE</span>
+                    <span id="activity-detail-text" class="text-[10px] text-zinc-400 font-mono truncate max-w-[200px]">Ready for commands</span>
+                </div>
+            </div>
+
+            <!-- WS Connection Status -->
             <div id="connection-status" class="flex items-center space-x-2 bg-zinc-900 px-3 py-1.5 rounded-full border border-zinc-800">
-                <span class="w-2.5 h-2.5 bg-amber-500 rounded-full animate-pulse-slow" id="status-dot"></span>
-                <span class="text-xs font-medium text-zinc-300" id="status-text">Connecting...</span>
+                <span class="w-2.5 h-2.5 bg-amber-500 rounded-full animate-pulse" id="status-dot"></span>
+                <span class="text-xs font-medium text-zinc-400" id="status-text">Connecting...</span>
             </div>
         </div>
     </header>
@@ -139,8 +179,8 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div class="bg-blue-950/20 border border-blue-900/30 rounded-xl p-4 flex items-start space-x-3">
             <i data-lucide="info" class="w-5 h-5 text-blue-400 shrink-0 mt-0.5"></i>
             <div class="text-xs text-blue-300 leading-relaxed">
-                This page streams live logs directly from Jorge's Coder Bot running locally on the <strong>NODE1 Mini PC</strong>. 
-                The local bot pushes log lines in real-time to this Render instance, which broadcasts them to your browser via WebSockets.
+                This stream preserves all log lines from <strong>Jorge's Coder Bot (NODE1)</strong>. 
+                Log lines are saved continuously, so refreshing the page will always display your full log history!
             </div>
         </div>
 
@@ -151,8 +191,8 @@ HTML_CONTENT = """<!DOCTYPE html>
             <div class="border-b border-zinc-800 bg-zinc-900/80 px-5 py-3 flex flex-wrap items-center justify-between gap-4">
                 <div class="flex items-center space-x-3">
                     <i data-lucide="terminal" class="w-5 h-5 text-zinc-400"></i>
-                    <h2 class="font-semibold text-zinc-200">Live Log Stream</h2>
-                    <span class="text-xs bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded-full font-mono" id="log-count">0 lines</span>
+                    <h2 class="font-semibold text-zinc-200">Preserved Logs</h2>
+                    <span class="text-xs bg-zinc-800 text-zinc-400 px-2.5 py-0.5 rounded-full font-mono" id="log-count">0 lines</span>
                 </div>
                 
                 <div class="flex items-center space-x-4">
@@ -181,7 +221,7 @@ HTML_CONTENT = """<!DOCTYPE html>
 
             <!-- Logs Terminal -->
             <div id="log-container" class="flex-1 p-5 overflow-y-auto font-mono text-xs space-y-1.5 bg-zinc-950">
-                <div class="text-zinc-500 italic text-center py-8">Waiting for logs from local bot...</div>
+                <div class="text-zinc-500 italic text-center py-8">Loading preserved log stream...</div>
             </div>
 
         </div>
@@ -190,11 +230,10 @@ HTML_CONTENT = """<!DOCTYPE html>
 
     <!-- Footer -->
     <footer class="border-t border-zinc-900 bg-zinc-950 py-6 text-center text-xs text-zinc-500">
-        <p>© 2026 Jorge's Coder Bot. Deployed on Render. Connected to NODE1.</p>
+        <p>© 2026 Jorge's Coder Bot (NODE1). Log Streamer Deployed on Render.</p>
     </footer>
 
     <script>
-        // Initialize Lucide Icons
         lucide.createIcons();
 
         let autoScroll = true;
@@ -206,11 +245,14 @@ HTML_CONTENT = """<!DOCTYPE html>
         const statusDot = document.getElementById('status-dot');
         const statusText = document.getElementById('status-text');
 
+        const badge = document.getElementById('bot-activity-badge');
+        const iconContainer = document.getElementById('activity-icon-container');
+        const statusTextElem = document.getElementById('activity-status-text');
+        const detailTextElem = document.getElementById('activity-detail-text');
+
         autoScrollToggle.addEventListener('change', (e) => {
             autoScroll = e.target.checked;
-            if (autoScroll) {
-                scrollToBottom();
-            }
+            if (autoScroll) scrollToBottom();
         });
 
         function scrollToBottom() {
@@ -224,6 +266,26 @@ HTML_CONTENT = """<!DOCTYPE html>
                 .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
+        }
+
+        function updateBotActivityUI(state) {
+            if (!state) return;
+            const isWorking = state.status === "working";
+            
+            if (isWorking) {
+                badge.className = "flex items-center space-x-2.5 bg-blue-950/40 px-4 py-2 rounded-xl border border-blue-800/60 shadow-lg shadow-blue-950/50 transition-all duration-300";
+                iconContainer.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 text-blue-400 animate-spin"></i>';
+                statusTextElem.className = "text-xs font-bold text-blue-400 tracking-wide uppercase flex items-center gap-1.5";
+                statusTextElem.innerHTML = '<span>WORKING...</span>';
+                detailTextElem.innerText = state.detail || state.tool || "Executing task...";
+            } else {
+                badge.className = "flex items-center space-x-2.5 bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all duration-300";
+                iconContainer.innerHTML = '<i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>';
+                statusTextElem.className = "text-xs font-bold text-emerald-400 tracking-wide uppercase";
+                statusTextElem.innerText = "BOT IDLE";
+                detailTextElem.innerText = "Ready for commands";
+            }
+            lucide.createIcons();
         }
 
         function renderLogs() {
@@ -256,57 +318,48 @@ HTML_CONTENT = """<!DOCTYPE html>
             }).join('');
             
             logContainer.innerHTML = html || '<div class="text-zinc-500 italic text-center py-8">No logs match the current filters.</div>';
-            
-            if (autoScroll) {
-                scrollToBottom();
-            }
+            if (autoScroll) scrollToBottom();
         }
 
         function parseLogLevel(line) {
             let level = "INFO";
-            if (line.includes(" - WARNING - ")) {
-                level = "WARNING";
-            } else if (line.includes(" - ERROR - ")) {
-                level = "ERROR";
-            } else if (line.includes(" - CRITICAL - ")) {
-                level = "CRITICAL";
-            } else if (line.includes(" - DEBUG - ")) {
-                level = "DEBUG";
-            }
+            if (line.includes(" - WARNING - ")) level = "WARNING";
+            else if (line.includes(" - ERROR - ")) level = "ERROR";
+            else if (line.includes(" - CRITICAL - ")) level = "CRITICAL";
+            else if (line.includes(" - DEBUG - ")) level = "DEBUG";
             return level;
         }
 
-        // Connect to WebSocket
         function connectWebSocket() {
             const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
             const wsUrl = `${protocol}//${window.location.host}/ws`;
             const ws = new WebSocket(wsUrl);
 
             ws.onopen = () => {
-                statusDot.className = "w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse-slow";
+                statusDot.className = "w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse";
                 statusText.innerText = "Live Stream Connected";
             };
 
             ws.onmessage = (event) => {
                 const message = JSON.parse(event.data);
-                if (message.type === 'logs') {
-                    const newLogs = message.data.map(line => ({
-                        raw: line,
-                        level: parseLogLevel(line)
-                    }));
-                    allLogs = allLogs.concat(newLogs);
-                    
-                    // Keep only last 2000 lines to prevent browser memory issues
-                    if (allLogs.length > 2000) {
-                        allLogs = allLogs.slice(-2000);
+                if (message.type === 'init') {
+                    if (message.logs) {
+                        allLogs = message.logs.map(line => ({ raw: line, level: parseLogLevel(line) }));
+                        renderLogs();
                     }
-                    
+                    if (message.state) updateBotActivityUI(message.state);
+                } else if (message.type === 'logs') {
+                    const newLogs = message.data.map(line => ({ raw: line, level: parseLogLevel(line) }));
+                    allLogs = allLogs.concat(newLogs);
+                    if (allLogs.length > 50000) allLogs = allLogs.slice(-50000);
                     renderLogs();
+                } else if (message.type === 'status') {
+                    updateBotActivityUI(message.data);
                 }
             };
 
             ws.onclose = () => {
-                statusDot.className = "w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse-slow";
+                statusDot.className = "w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse";
                 statusText.innerText = "Disconnected. Reconnecting...";
                 setTimeout(connectWebSocket, 3000);
             };
@@ -317,11 +370,8 @@ HTML_CONTENT = """<!DOCTYPE html>
             };
         }
 
-        // Event listeners
         logSearch.addEventListener('input', renderLogs);
         levelFilter.addEventListener('change', renderLogs);
-
-        // Start connection
         connectWebSocket();
     </script>
 </body>
