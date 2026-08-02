@@ -9,18 +9,27 @@ app = FastAPI(title="Jorge's Bot Log Streamer")
 # Simple API key for security
 API_KEY = os.getenv("LOG_STREAMER_API_KEY", "super-secret-key")
 
-# Global log history buffer (Preserves up to 50,000 log lines forever)
+# File persistence for logs
+LOG_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "server_logs.txt")
+
+# Load existing log file into memory on startup
 GLOBAL_LOG_HISTORY: List[str] = []
+if os.path.exists(LOG_FILE_PATH):
+    try:
+        with open(LOG_FILE_PATH, "r", encoding="utf-8") as f:
+            GLOBAL_LOG_HISTORY = [line.rstrip("\r\n") for line in f.readlines() if line.strip()]
+    except Exception:
+        GLOBAL_LOG_HISTORY = []
+
 MAX_HISTORY_LINES = 50000
 
 # Global Bot State
 current_bot_state = {
-    "status": "idle", # "idle" or "working"
+    "status": "idle",
     "detail": "Ready for commands",
     "tool": ""
 }
 
-# Store active websocket connections
 class ConnectionManager:
     def __init__(self):
         self.active_connections: List[WebSocket] = []
@@ -31,7 +40,7 @@ class ConnectionManager:
         # Send initial full log history and current bot status to newly connected client
         await websocket.send_json({
             "type": "init",
-            "logs": GLOBAL_LOG_HISTORY[-2000:], # send last 2000 lines on load
+            "logs": GLOBAL_LOG_HISTORY[-2000:],
             "state": current_bot_state
         })
 
@@ -52,7 +61,7 @@ class LogPayload(BaseModel):
     logs: List[str]
 
 class StatusPayload(BaseModel):
-    status: str # "working" or "idle"
+    status: str
     detail: Optional[str] = ""
     tool: Optional[str] = ""
 
@@ -73,6 +82,14 @@ async def receive_logs(payload: LogPayload, x_api_key: str = Header(None)):
     GLOBAL_LOG_HISTORY.extend(payload.logs)
     if len(GLOBAL_LOG_HISTORY) > MAX_HISTORY_LINES:
         GLOBAL_LOG_HISTORY = GLOBAL_LOG_HISTORY[-MAX_HISTORY_LINES:]
+        
+    # Append to local server_logs.txt file
+    try:
+        with open(LOG_FILE_PATH, "a", encoding="utf-8") as f:
+            for log_line in payload.logs:
+                f.write(log_line + "\n")
+    except Exception:
+        pass
         
     await manager.broadcast({"type": "logs", "data": payload.logs})
     return {"status": "success", "broadcasted": len(payload.logs)}
@@ -179,8 +196,8 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div class="bg-blue-950/20 border border-blue-900/30 rounded-xl p-4 flex items-start space-x-3">
             <i data-lucide="info" class="w-5 h-5 text-blue-400 shrink-0 mt-0.5"></i>
             <div class="text-xs text-blue-300 leading-relaxed">
-                This stream preserves all log lines from <strong>Jorge's Coder Bot (NODE1)</strong>. 
-                Log lines are saved continuously, so refreshing the page will always display your full log history!
+                All log lines are saved permanently to <strong>server_logs.txt</strong> and <strong>C:\BotWorkspace\bot.log</strong>. 
+                Log history is preserved forever across page refreshes and server reboots!
             </div>
         </div>
 
