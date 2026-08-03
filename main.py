@@ -211,9 +211,6 @@ HTML_CONTENT = """<!DOCTYPE html>
     <!-- Header -->
     <header class="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur sticky top-0 z-50 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center space-x-3">
-            <div class="bg-blue-500/10 p-2 rounded-lg border border-blue-500/20 text-blue-400">
-                <i data-lucide="cloud-lightning" class="w-6 h-6"></i>
-            </div>
             <div>
                 <h1 class="text-lg font-bold tracking-tight flex items-center gap-2">
                     Jorge's Coder Bot <span class="text-xs bg-blue-950 text-blue-400 border border-blue-900/50 px-2 py-0.5 rounded-full font-mono">RENDER CLOUD</span>
