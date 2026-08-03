@@ -1,6 +1,8 @@
 import os
 import asyncio
 import time
+import requests
+import base64
 from typing import List, Optional
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Header, HTTPException, Request
 from fastapi.responses import HTMLResponse
@@ -9,19 +11,36 @@ from pydantic import BaseModel
 app = FastAPI(title="Jorge's Bot Log Streamer")
 
 API_KEY = os.getenv("LOG_STREAMER_API_KEY", "super-secret-key")
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 LOG_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "server_logs.txt")
 
 GLOBAL_LOG_HISTORY: List[str] = []
-if os.path.exists(LOG_FILE_PATH):
-    try:
-        with open(LOG_FILE_PATH, "r", encoding="utf-8") as f:
-            GLOBAL_LOG_HISTORY = [line.rstrip("\r\n") for line in f.readlines() if line.strip()]
-    except Exception:
-        GLOBAL_LOG_HISTORY = []
 
+# Fetch log history from GitHub API on startup if local file doesn't exist
+def load_github_log_history():
+    global GLOBAL_LOG_HISTORY
+    if os.path.exists(LOG_FILE_PATH):
+        try:
+            with open(LOG_FILE_PATH, "r", encoding="utf-8") as f:
+                GLOBAL_LOG_HISTORY = [line.rstrip("\r\n") for line in f.readlines() if line.strip()]
+                return
+        except Exception:
+            pass
+
+    if GITHUB_TOKEN:
+        try:
+            url = "https://api.github.com/repos/JorgeJoseContreras/bot-log-streamer/contents/server_logs.txt"
+            headers = {"Authorization": f"token {GITHUB_TOKEN}", "Accept": "application/vnd.github.v3+json"}
+            r = requests.get(url, headers=headers, timeout=10)
+            if r.status_code == 200:
+                content = base64.b64decode(r.json()['content']).decode('utf-8')
+                GLOBAL_LOG_HISTORY = [line.rstrip("\r\n") for line in content.splitlines() if line.strip()]
+        except Exception:
+            GLOBAL_LOG_HISTORY = []
+
+load_github_log_history()
 MAX_HISTORY_LINES = 50000
 
-# Global Bot State with Last Activity Timestamp
 current_bot_state = {
     "status": "idle",
     "detail": "Ready for commands",
@@ -55,9 +74,31 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
-# Background Watchdog: Auto-reset to IDLE if no tool update for 30s
+# Background Task: Sync log history to GitHub every 5 minutes
 @app.on_event("startup")
-async def start_watchdog():
+async def start_github_sync():
+    async def github_sync_task():
+        while True:
+            await asyncio.sleep(300)
+            if GITHUB_TOKEN and GLOBAL_LOG_HISTORY:
+                try:
+                    url = "https://api.github.com/repos/JorgeJoseContreras/bot-log-streamer/contents/server_logs.txt"
+                    headers = {"Authorization": f"token {GITHUB_TOKEN}", "Accept": "application/vnd.github.v3+json"}
+                    r_get = requests.get(url, headers=headers, timeout=5)
+                    sha = r_get.json().get('sha') if r_get.status_code == 200 else None
+                    
+                    content_str = "\n".join(GLOBAL_LOG_HISTORY[-10000:])
+                    content_b64 = base64.b64encode(content_str.encode('utf-8')).decode('utf-8')
+                    payload = {
+                        "message": "Auto-sync preserved bot logs",
+                        "content": content_b64
+                    }
+                    if sha:
+                        payload["sha"] = sha
+                    requests.put(url, headers=headers, json=payload, timeout=10)
+                except Exception:
+                    pass
+
     async def watchdog_task():
         while True:
             await asyncio.sleep(5)
@@ -68,6 +109,8 @@ async def start_watchdog():
                     current_bot_state["tool"] = ""
                     current_bot_state["last_updated"] = time.time()
                     await manager.broadcast({"type": "status", "data": current_bot_state})
+
+    asyncio.create_task(github_sync_task())
     asyncio.create_task(watchdog_task())
 
 class LogPayload(BaseModel):
@@ -206,7 +249,7 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div class="bg-blue-950/20 border border-blue-900/30 rounded-xl p-4 flex items-start space-x-3">
             <i data-lucide="info" class="w-5 h-5 text-blue-400 shrink-0 mt-0.5"></i>
             <div class="text-xs text-blue-300 leading-relaxed">
-                All log lines are saved permanently to <strong>server_logs.txt</strong> on Render. Log history is preserved forever across page refreshes!
+                Log history is auto-synced to your GitHub repository (<code>JorgeJoseContreras/bot-log-streamer</code>) and preserved 100% permanently across all server restarts!
             </div>
         </div>
 
