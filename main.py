@@ -1,4 +1,6 @@
 import os
+import asyncio
+import time
 from typing import List, Optional
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Header, HTTPException, Request
 from fastapi.responses import HTMLResponse
@@ -6,13 +8,9 @@ from pydantic import BaseModel
 
 app = FastAPI(title="Jorge's Bot Log Streamer")
 
-# Simple API key for security
 API_KEY = os.getenv("LOG_STREAMER_API_KEY", "super-secret-key")
-
-# File persistence for logs
 LOG_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "server_logs.txt")
 
-# Load existing log file into memory on startup
 GLOBAL_LOG_HISTORY: List[str] = []
 if os.path.exists(LOG_FILE_PATH):
     try:
@@ -23,11 +21,12 @@ if os.path.exists(LOG_FILE_PATH):
 
 MAX_HISTORY_LINES = 50000
 
-# Global Bot State
+# Global Bot State with Last Activity Timestamp
 current_bot_state = {
     "status": "idle",
     "detail": "Ready for commands",
-    "tool": ""
+    "tool": "",
+    "last_updated": time.time()
 }
 
 class ConnectionManager:
@@ -37,10 +36,9 @@ class ConnectionManager:
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
         self.active_connections.append(websocket)
-        # Send initial full log history and current bot status to newly connected client
         await websocket.send_json({
             "type": "init",
-            "logs": GLOBAL_LOG_HISTORY[-10000:],
+            "logs": GLOBAL_LOG_HISTORY[-2000:],
             "state": current_bot_state
         })
 
@@ -57,6 +55,21 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
+# Background Watchdog: Auto-reset to IDLE if no tool update for 30s
+@app.on_event("startup")
+async def start_watchdog():
+    async def watchdog_task():
+        while True:
+            await asyncio.sleep(5)
+            if current_bot_state["status"] == "working":
+                if time.time() - current_bot_state.get("last_updated", 0) > 30:
+                    current_bot_state["status"] = "idle"
+                    current_bot_state["detail"] = "Ready for commands"
+                    current_bot_state["tool"] = ""
+                    current_bot_state["last_updated"] = time.time()
+                    await manager.broadcast({"type": "status", "data": current_bot_state})
+    asyncio.create_task(watchdog_task())
+
 class LogPayload(BaseModel):
     logs: List[str]
 
@@ -71,7 +84,11 @@ async def get_dashboard(request: Request):
 
 @app.get("/api/logs/history")
 async def get_log_history():
-    return {"total_lines": len(GLOBAL_LOG_HISTORY), "logs": GLOBAL_LOG_HISTORY[-10000:]}
+    return {"total_lines": len(GLOBAL_LOG_HISTORY), "logs": GLOBAL_LOG_HISTORY[-5000:]}
+
+@app.get("/api/status")
+async def get_status():
+    return current_bot_state
 
 @app.post("/api/logs")
 async def receive_logs(payload: LogPayload, x_api_key: str = Header(None)):
@@ -83,7 +100,6 @@ async def receive_logs(payload: LogPayload, x_api_key: str = Header(None)):
     if len(GLOBAL_LOG_HISTORY) > MAX_HISTORY_LINES:
         GLOBAL_LOG_HISTORY = GLOBAL_LOG_HISTORY[-MAX_HISTORY_LINES:]
         
-    # Append to local server_logs.txt file
     try:
         with open(LOG_FILE_PATH, "a", encoding="utf-8") as f:
             for log_line in payload.logs:
@@ -94,32 +110,6 @@ async def receive_logs(payload: LogPayload, x_api_key: str = Header(None)):
     await manager.broadcast({"type": "logs", "data": payload.logs})
     return {"status": "success", "broadcasted": len(payload.logs)}
 
-@app.post("/api/logs/sync")
-async def sync_logs(payload: LogPayload, x_api_key: str = Header(None)):
-    if x_api_key != API_KEY:
-        raise HTTPException(status_code=403, detail="Invalid API Key")
-    
-    global GLOBAL_LOG_HISTORY
-    GLOBAL_LOG_HISTORY = payload.logs
-    if len(GLOBAL_LOG_HISTORY) > MAX_HISTORY_LINES:
-        GLOBAL_LOG_HISTORY = GLOBAL_LOG_HISTORY[-MAX_HISTORY_LINES:]
-        
-    # Overwrite local server_logs.txt file to keep it in sync
-    try:
-        with open(LOG_FILE_PATH, "w", encoding="utf-8") as f:
-            for log_line in GLOBAL_LOG_HISTORY:
-                f.write(log_line + "\n")
-    except Exception:
-        pass
-        
-    # Broadcast to all connected websockets that logs have been re-initialized
-    await manager.broadcast({
-        "type": "init",
-        "logs": GLOBAL_LOG_HISTORY[-10000:],
-        "state": current_bot_state
-    })
-    return {"status": "success", "synced_lines": len(GLOBAL_LOG_HISTORY)}
-
 @app.post("/api/status")
 async def update_bot_status(payload: StatusPayload, x_api_key: str = Header(None)):
     if x_api_key != API_KEY:
@@ -129,6 +119,7 @@ async def update_bot_status(payload: StatusPayload, x_api_key: str = Header(None
     current_bot_state["status"] = payload.status
     current_bot_state["detail"] = payload.detail or ""
     current_bot_state["tool"] = payload.tool or ""
+    current_bot_state["last_updated"] = time.time()
     
     await manager.broadcast({"type": "status", "data": current_bot_state})
     return {"status": "success", "state": current_bot_state}
@@ -170,13 +161,6 @@ HTML_CONTENT = """<!DOCTYPE html>
         ::-webkit-scrollbar-track { background: #09090b; }
         ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
-        @keyframes spin-slow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-            animation: spin-slow 2s linear infinite;
-        }
     </style>
 </head>
 <body class="bg-zinc-950 text-zinc-50 min-h-screen font-sans flex flex-col">
@@ -184,16 +168,19 @@ HTML_CONTENT = """<!DOCTYPE html>
     <!-- Header -->
     <header class="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur sticky top-0 z-50 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center space-x-3">
+            <div class="bg-blue-500/10 p-2 rounded-lg border border-blue-500/20 text-blue-400">
+                <i data-lucide="cloud-lightning" class="w-6 h-6"></i>
+            </div>
             <div>
                 <h1 class="text-lg font-bold tracking-tight flex items-center gap-2">
-                    Jorge's Coder Bot <span class="text-xs bg-blue-950 text-blue-400 border border-blue-900/50 px-2 py-0.5 rounded-full font-mono">NODE1 STREAM</span>
+                    Jorge's Coder Bot <span class="text-xs bg-blue-950 text-blue-400 border border-blue-900/50 px-2 py-0.5 rounded-full font-mono">RENDER CLOUD</span>
                 </h1>
                 <p class="text-xs text-zinc-400">Live Log Streamer & Real-time Bot Activity Monitor</p>
             </div>
         </div>
 
         <div class="flex items-center space-x-4">
-            <!-- BOT ACTIVITY INDICATOR (ROLLING ICON WHEN WORKING) -->
+            <!-- BOT ACTIVITY INDICATOR -->
             <div id="bot-activity-badge" class="flex items-center space-x-2.5 bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all duration-300">
                 <div id="activity-icon-container" class="relative flex items-center justify-center">
                     <i id="activity-icon" data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
@@ -219,15 +206,12 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div class="bg-blue-950/20 border border-blue-900/30 rounded-xl p-4 flex items-start space-x-3">
             <i data-lucide="info" class="w-5 h-5 text-blue-400 shrink-0 mt-0.5"></i>
             <div class="text-xs text-blue-300 leading-relaxed">
-                All log lines are saved permanently to <strong>server_logs.txt</strong> and <strong>C:\BotWorkspace\bot.log</strong>. 
-                Log history is preserved forever across page refreshes and server reboots!
+                All log lines are saved permanently to <strong>server_logs.txt</strong> on Render. Log history is preserved forever across page refreshes!
             </div>
         </div>
 
         <!-- Logs Section -->
         <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl flex flex-col h-[650px] overflow-hidden">
-            
-            <!-- Logs Header / Controls -->
             <div class="border-b border-zinc-800 bg-zinc-900/80 px-5 py-3 flex flex-wrap items-center justify-between gap-4">
                 <div class="flex items-center space-x-3">
                     <i data-lucide="terminal" class="w-5 h-5 text-zinc-400"></i>
@@ -236,13 +220,11 @@ HTML_CONTENT = """<!DOCTYPE html>
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                    <!-- Search -->
                     <div class="relative">
                         <i data-lucide="search" class="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
                         <input type="text" id="log-search" placeholder="Filter logs..." class="bg-zinc-950 border border-zinc-800 rounded-lg pl-9 pr-4 py-1.5 text-sm text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-700 w-64">
                     </div>
                     
-                    <!-- Level Filter -->
                     <select id="level-filter" class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-sm text-zinc-300 focus:outline-none focus:border-zinc-700">
                         <option value="ALL">All Levels</option>
                         <option value="INFO">INFO</option>
@@ -250,7 +232,6 @@ HTML_CONTENT = """<!DOCTYPE html>
                         <option value="ERROR">ERROR</option>
                     </select>
 
-                    <!-- Auto Scroll Toggle -->
                     <label class="flex items-center space-x-2 cursor-pointer select-none">
                         <input type="checkbox" id="auto-scroll" checked class="sr-only peer">
                         <div class="w-9 h-5 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-400 after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600 peer-checked:after:bg-white relative"></div>
@@ -259,18 +240,15 @@ HTML_CONTENT = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- Logs Terminal -->
             <div id="log-container" class="flex-1 p-5 overflow-y-auto font-mono text-xs space-y-1.5 bg-zinc-950">
                 <div class="text-zinc-500 italic text-center py-8">Loading preserved log stream...</div>
             </div>
-
         </div>
 
     </main>
 
-    <!-- Footer -->
     <footer class="border-t border-zinc-900 bg-zinc-950 py-6 text-center text-xs text-zinc-500">
-        <p>© 2026 Jorge's Coder Bot (NODE1). Log Streamer Deployed on Render.</p>
+        <p>© 2026 Jorge's Cloud Coder Bot. Deployed on Render.</p>
     </footer>
 
     <script>
@@ -295,7 +273,6 @@ HTML_CONTENT = """<!DOCTYPE html>
             if (autoScroll) scrollToBottom();
         });
 
-        // Auto scroll helper
         function scrollToBottom() {
             logContainer.scrollTop = logContainer.scrollHeight;
         }
