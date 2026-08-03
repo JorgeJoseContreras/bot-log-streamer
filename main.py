@@ -40,7 +40,7 @@ class ConnectionManager:
         # Send initial full log history and current bot status to newly connected client
         await websocket.send_json({
             "type": "init",
-            "logs": GLOBAL_LOG_HISTORY[-2000:],
+            "logs": GLOBAL_LOG_HISTORY[-10000:],
             "state": current_bot_state
         })
 
@@ -71,7 +71,7 @@ async def get_dashboard(request: Request):
 
 @app.get("/api/logs/history")
 async def get_log_history():
-    return {"total_lines": len(GLOBAL_LOG_HISTORY), "logs": GLOBAL_LOG_HISTORY[-5000:]}
+    return {"total_lines": len(GLOBAL_LOG_HISTORY), "logs": GLOBAL_LOG_HISTORY[-10000:]}
 
 @app.post("/api/logs")
 async def receive_logs(payload: LogPayload, x_api_key: str = Header(None)):
@@ -93,6 +93,32 @@ async def receive_logs(payload: LogPayload, x_api_key: str = Header(None)):
         
     await manager.broadcast({"type": "logs", "data": payload.logs})
     return {"status": "success", "broadcasted": len(payload.logs)}
+
+@app.post("/api/logs/sync")
+async def sync_logs(payload: LogPayload, x_api_key: str = Header(None)):
+    if x_api_key != API_KEY:
+        raise HTTPException(status_code=403, detail="Invalid API Key")
+    
+    global GLOBAL_LOG_HISTORY
+    GLOBAL_LOG_HISTORY = payload.logs
+    if len(GLOBAL_LOG_HISTORY) > MAX_HISTORY_LINES:
+        GLOBAL_LOG_HISTORY = GLOBAL_LOG_HISTORY[-MAX_HISTORY_LINES:]
+        
+    # Overwrite local server_logs.txt file to keep it in sync
+    try:
+        with open(LOG_FILE_PATH, "w", encoding="utf-8") as f:
+            for log_line in GLOBAL_LOG_HISTORY:
+                f.write(log_line + "\n")
+    except Exception:
+        pass
+        
+    # Broadcast to all connected websockets that logs have been re-initialized
+    await manager.broadcast({
+        "type": "init",
+        "logs": GLOBAL_LOG_HISTORY[-10000:],
+        "state": current_bot_state
+    })
+    return {"status": "success", "synced_lines": len(GLOBAL_LOG_HISTORY)}
 
 @app.post("/api/status")
 async def update_bot_status(payload: StatusPayload, x_api_key: str = Header(None)):
