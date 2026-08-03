@@ -17,9 +17,7 @@
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -46,9 +44,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -110,9 +106,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -139,9 +133,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -203,9 +195,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -232,9 +222,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -296,9 +284,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -325,9 +311,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -389,9 +373,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -418,9 +400,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -482,9 +462,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -511,9 +489,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -575,9 +551,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -604,9 +578,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -668,9 +640,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -697,9 +667,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -761,9 +729,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -790,9 +756,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -854,9 +818,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -883,9 +845,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -947,9 +907,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -976,9 +934,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -1040,9 +996,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -1069,9 +1023,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -1133,9 +1085,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -1162,9 +1112,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -1226,9 +1174,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -1255,9 +1201,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -1319,9 +1263,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -1348,9 +1290,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -1412,9 +1352,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -1441,9 +1379,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -1505,9 +1441,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -1534,9 +1468,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -1598,9 +1530,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -1627,9 +1557,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -1691,9 +1619,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -1720,9 +1646,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -1784,9 +1708,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -1813,9 +1735,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -1877,9 +1797,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -1906,9 +1824,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -1970,9 +1886,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -1999,9 +1913,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -2063,9 +1975,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -2092,9 +2002,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -2156,9 +2064,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -2185,9 +2091,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -2249,9 +2153,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -2278,9 +2180,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -2342,9 +2242,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -2371,9 +2269,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -2435,9 +2331,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -2464,9 +2358,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -2528,9 +2420,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -2557,9 +2447,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -2621,9 +2509,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -2650,9 +2536,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -2714,9 +2598,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -2743,9 +2625,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -2807,9 +2687,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -2836,9 +2714,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -2900,9 +2776,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -2929,9 +2803,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -2993,9 +2865,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -3022,9 +2892,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -3086,9 +2954,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -3115,9 +2981,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -3179,9 +3043,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -3208,9 +3070,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -3272,9 +3132,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -3301,9 +3159,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -3365,9 +3221,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -3394,9 +3248,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -3458,9 +3310,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -3487,9 +3337,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -3551,9 +3399,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -3580,9 +3426,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -3644,9 +3488,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -3673,9 +3515,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -3737,9 +3577,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -3766,9 +3604,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -3830,9 +3666,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -3859,9 +3693,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -3923,9 +3755,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -3952,9 +3782,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -4016,9 +3844,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -4045,9 +3871,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -4109,9 +3933,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
     raise to_exc(exc) from exc
 httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
     res = await self._client.request(
@@ -4138,9 +3960,7 @@ Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
 The above exception was the direct cause of the following exception:
-
 Traceback (most recent call last):
   File "C:\Program Files\Python312\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
     await do_action()
@@ -4311,7 +4131,6 @@ are recommended to pass/receive Json Schema directly to/from the API. For exampl
 3. the counter part of FunctionDeclaration.response is
    FunctionDeclaration.response_json_schema, which accepts [JSON
    Schema](https://json-schema.org/)
-
 2026-08-02 19:38:55,945 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent "HTTP/1.1 200 OK"
 2026-08-02 19:38:56,188 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8680357216:AAGLh_2uOCeGmFESQ-6qAzkOZDp0PdKGZ4U/deleteMessage "HTTP/1.1 200 OK"
 2026-08-02 19:38:56,448 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8680357216:AAGLh_2uOCeGmFESQ-6qAzkOZDp0PdKGZ4U/sendMessage "HTTP/1.1 200 OK"
@@ -4489,7 +4308,6 @@ are recommended to pass/receive Json Schema directly to/from the API. For exampl
 3. the counter part of FunctionDeclaration.response is
    FunctionDeclaration.response_json_schema, which accepts [JSON
    Schema](https://json-schema.org/)
-
 2026-08-02 19:58:11,911 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent "HTTP/1.1 200 OK"
 2026-08-02 19:58:12,181 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8680357216:AAGLh_2uOCeGmFESQ-6qAzkOZDp0PdKGZ4U/editMessageText "HTTP/1.1 200 OK"
 2026-08-02 19:58:12,181 - __main__ - INFO - Executing system command: dir
@@ -4645,7 +4463,6 @@ are recommended to pass/receive Json Schema directly to/from the API. For exampl
 3. the counter part of FunctionDeclaration.response is
    FunctionDeclaration.response_json_schema, which accepts [JSON
    Schema](https://json-schema.org/)
-
 2026-08-02 20:09:39,854 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent "HTTP/1.1 200 OK"
 2026-08-02 20:09:40,103 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8680357216:AAGLh_2uOCeGmFESQ-6qAzkOZDp0PdKGZ4U/editMessageText "HTTP/1.1 200 OK"
 2026-08-02 20:09:40,118 - __main__ - INFO - Performing SerpAPI Google Search for: latest world cup winners FIFA Cricket Rugby
@@ -4712,7 +4529,6 @@ are recommended to pass/receive Json Schema directly to/from the API. For exampl
 3. the counter part of FunctionDeclaration.response is
    FunctionDeclaration.response_json_schema, which accepts [JSON
    Schema](https://json-schema.org/)
-
 2026-08-02 20:16:10,893 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent "HTTP/1.1 200 OK"
 2026-08-02 20:16:11,161 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8680357216:AAGLh_2uOCeGmFESQ-6qAzkOZDp0PdKGZ4U/editMessageText "HTTP/1.1 200 OK"
 2026-08-02 20:16:11,161 - __main__ - INFO - Performing SerpAPI Google Search for: latest world cup winner
@@ -4836,7 +4652,6 @@ are recommended to pass/receive Json Schema directly to/from the API. For exampl
 3. the counter part of FunctionDeclaration.response is
    FunctionDeclaration.response_json_schema, which accepts [JSON
    Schema](https://json-schema.org/)
-
 2026-08-02 20:29:47,533 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent "HTTP/1.1 200 OK"
 2026-08-02 20:29:47,774 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8680357216:AAGLh_2uOCeGmFESQ-6qAzkOZDp0PdKGZ4U/deleteMessage "HTTP/1.1 200 OK"
 2026-08-02 20:29:48,059 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8680357216:AAGLh_2uOCeGmFESQ-6qAzkOZDp0PdKGZ4U/sendMessage "HTTP/1.1 200 OK"
@@ -4998,3 +4813,5 @@ are recommended to pass/receive Json Schema directly to/from the API. For exampl
 2026-08-02 20:42:54,871 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8680357216:AAGLh_2uOCeGmFESQ-6qAzkOZDp0PdKGZ4U/getUpdates "HTTP/1.1 200 OK"
 2026-08-02 20:43:04,995 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8680357216:AAGLh_2uOCeGmFESQ-6qAzkOZDp0PdKGZ4U/getUpdates "HTTP/1.1 200 OK"
 2026-08-02 20:43:15,120 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8680357216:AAGLh_2uOCeGmFESQ-6qAzkOZDp0PdKGZ4U/getUpdates "HTTP/1.1 200 OK"
+2026-08-03 00:53:34,675 - main - INFO - Initializing Telegram Bot in FastAPI asyncio loop...
+2026-08-03 00:53:35,374 - main - INFO - Telegram Bot long-polling active and listening on Render!
