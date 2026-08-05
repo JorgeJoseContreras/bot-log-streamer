@@ -60,7 +60,7 @@ class ConnectionManager:
         self.active_connections.append(websocket)
         await websocket.send_json({
             "type": "init",
-            "logs": GLOBAL_LOG_HISTORY[-5000:],
+            "logs": GLOBAL_LOG_HISTORY,
             "state": current_bot_state
         })
 
