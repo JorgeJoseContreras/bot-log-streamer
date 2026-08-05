@@ -3,6 +3,7 @@ import asyncio
 import time
 import requests
 import base64
+import httpx
 from typing import List, Optional
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Header, HTTPException, Request
 from fastapi.responses import HTMLResponse
@@ -12,6 +13,8 @@ app = FastAPI(title="Jorge's Bot Log Streamer")
 
 API_KEY = os.getenv("LOG_STREAMER_API_KEY", "super-secret-key")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+RENDER_API_KEY = os.getenv("RENDER_API_KEY")
+RENDER_SERVICE_ID = os.getenv("RENDER_SERVICE_ID")
 LOG_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "server_logs.txt")
 
 GLOBAL_LOG_HISTORY: List[str] = []
@@ -57,7 +60,7 @@ class ConnectionManager:
         self.active_connections.append(websocket)
         await websocket.send_json({
             "type": "init",
-            "logs": GLOBAL_LOG_HISTORY[-2000:],
+            "logs": GLOBAL_LOG_HISTORY,
             "state": current_bot_state
         })
 
@@ -110,8 +113,56 @@ async def start_github_sync():
                     current_bot_state["last_updated"] = time.time()
                     await manager.broadcast({"type": "status", "data": current_bot_state})
 
+    async def render_log_poll_task():
+        """Poll Render service logs every 10 seconds and stream new lines to clients."""
+        global GLOBAL_LOG_HISTORY
+        seen_lines = set()
+        # Seed seen_lines with lines already in history to avoid re-broadcasting on restart
+        for line in GLOBAL_LOG_HISTORY:
+            seen_lines.add(line)
+
+        while True:
+            await asyncio.sleep(10)
+            if not RENDER_API_KEY or not RENDER_SERVICE_ID:
+                continue
+            try:
+                url = f"https://api.render.com/v1/services/{RENDER_SERVICE_ID}/logs"
+                headers = {"Authorization": "Bearer " + RENDER_API_KEY, "Accept": "application/json"}
+                params = {"limit": 100, "direction": "backward"}
+                async with httpx.AsyncClient(timeout=10) as client:
+                    r = await client.get(url, headers=headers, params=params)
+                if r.status_code != 200:
+                    continue
+                data = r.json()
+                # Render returns a list or a dict with a "logs" key depending on API version
+                raw_logs = data if isinstance(data, list) else data.get("logs", [])
+                new_lines = []
+                for entry in raw_logs:
+                    # Each entry has a "message" field and optionally "timestamp"
+                    msg = entry.get("message", "") if isinstance(entry, dict) else str(entry)
+                    ts = entry.get("timestamp", "") if isinstance(entry, dict) else ""
+                    line = f"{ts} - render - {msg}" if ts else f"render - {msg}"
+                    line = line.strip()
+                    if line and line not in seen_lines:
+                        seen_lines.add(line)
+                        new_lines.append(line)
+                if new_lines:
+                    GLOBAL_LOG_HISTORY.extend(new_lines)
+                    if len(GLOBAL_LOG_HISTORY) > MAX_HISTORY_LINES:
+                        GLOBAL_LOG_HISTORY = GLOBAL_LOG_HISTORY[-MAX_HISTORY_LINES:]
+                    try:
+                        with open(LOG_FILE_PATH, "a", encoding="utf-8") as f:
+                            for log_line in new_lines:
+                                f.write(log_line + "\n")
+                    except Exception:
+                        pass
+                    await manager.broadcast({"type": "logs", "data": new_lines})
+            except Exception:
+                pass
+
     asyncio.create_task(github_sync_task())
     asyncio.create_task(watchdog_task())
+    asyncio.create_task(render_log_poll_task())
 
 class LogPayload(BaseModel):
     logs: List[str]
